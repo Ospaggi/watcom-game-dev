@@ -37,10 +37,11 @@
 #define SFX_S_WIN   4
 #define SFX_S_LOSE  5
 
-#define ST_MENU   0
-#define ST_PLAY   1
-#define ST_DEAD   2
-#define ST_ENDING 3
+#define ST_MENU    0
+#define ST_PLAY    1
+#define ST_DEAD    2
+#define ST_ENDING  3
+#define ST_CREDITS 4
 
 #define VIEW_TW 15
 #define VIEW_TH 11
@@ -176,9 +177,60 @@ static void render_ending(void)
     font_puts(64, 92, "던전에 평화가 찾아왔다.", 15);
     sprintf(buf, "획득한 금화: %d닢", pl.gold);
     font_puts(88, 124, buf, 58);
-    font_puts(96, 164, "ENTER: 메뉴로", 14);
+    font_puts(96, 164, "ENTER: 크레딧", 14);
     gfx_vsync();
     gfx_flip();
+}
+
+/* ---- scrolling ending credits ---- */
+
+typedef struct {
+    const char *text;
+    unsigned char color;
+} CreditLine;
+
+static const CreditLine credit_lines[] = {
+    { "던전 크롤러",                58 },
+    { "",                           0 },
+    { "개발",                       11 },
+    { "QuickBASIC",                 15 },
+    { "",                           0 },
+    { "그래픽",                     11 },
+    { "DawnLike 타일셋",            15 },
+    { "DragonDePlatino",            7 },
+    { "팔레트 DawnBringer",         7 },
+    { "",                           0 },
+    { "효과음",                     11 },
+    { "Juhani Junkala",             15 },
+    { "",                           0 },
+    { "음악",                       11 },
+    { "Ospaggi (도스박물관)",       15 },
+    { "",                           0 },
+    { "(C) 2026 QuickBASIC",        8 },
+    { "",                           0 },
+    { "플레이해 주셔서 감사합니다!", 14 },
+};
+#define N_CREDITS ((int)(sizeof(credit_lines) / sizeof(credit_lines[0])))
+#define CREDIT_LINE_H   24
+#define CREDIT_SPEED_MS 30  /* ms per scrolled pixel */
+
+/* Draw the roll at the given scroll offset (0 = all below the screen).
+ * Returns 1 while any line is still visible or on its way, 0 when done. */
+static int render_credits(int scroll)
+{
+    int i, y, alive = 0;
+
+    gfx_clear(0);
+    for (i = 0; i < N_CREDITS; i++) {
+        y = GFX_H + i * CREDIT_LINE_H - scroll;
+        if (y > -CREDIT_LINE_H) alive = 1;
+        if (!credit_lines[i].text[0]) continue;
+        font_puts((GFX_W - font_text_width(credit_lines[i].text)) / 2,
+                  y, credit_lines[i].text, credit_lines[i].color);
+    }
+    gfx_vsync();
+    gfx_flip();
+    return alive;
 }
 
 /* ---- play logic ----
@@ -405,6 +457,12 @@ static void autocap_run(void)
     }
     if (game_state == ST_ENDING) render_ending();
     scrncap_save_bmp("ENDING.BMP");
+
+    /* two snapshots of the credits roll: top block and bottom block */
+    render_credits(200);
+    scrncap_save_bmp("CREDIT1.BMP");
+    render_credits(460);
+    scrncap_save_bmp("CREDIT2.BMP");
 }
 #endif
 
@@ -444,6 +502,10 @@ int main(void)
     bgm("ST00.VGM");
     input_flush();
 
+    {
+    unsigned long credits_t0 = 0;
+    int credits_scroll = -1;
+
     while (1) {
         int key;
 
@@ -466,18 +528,37 @@ int main(void)
             } else if (key > 0) {
                 game_turn(key);
             }
-        } else {  /* ST_DEAD / ST_ENDING */
-            if (dirty) {
-                if (game_state == ST_DEAD) render_dead();
-                else render_ending();
-                dirty = 0;
+        } else if (game_state == ST_ENDING) {
+            if (dirty) { render_ending(); dirty = 0; }
+            if (key == KEY_ENTER) {
+                game_state = ST_CREDITS;
+                credits_t0 = timer_ms();
+                credits_scroll = -1;
+            } else if (key == KEY_ESC) {
+                game_state = ST_MENU;
+                bgm("ST00.VGM");
+                dirty = 1;
+            }
+        } else if (game_state == ST_CREDITS) {
+            int s = (int)((timer_ms() - credits_t0) / CREDIT_SPEED_MS);
+            if (s != credits_scroll) {
+                credits_scroll = s;
+                if (!render_credits(s)) key = KEY_ENTER;  /* roll finished */
             }
             if (key == KEY_ENTER || key == KEY_ESC) {
                 game_state = ST_MENU;
                 bgm("ST00.VGM");
                 dirty = 1;
             }
+        } else {  /* ST_DEAD */
+            if (dirty) { render_dead(); dirty = 0; }
+            if (key == KEY_ENTER || key == KEY_ESC) {
+                game_state = ST_MENU;
+                bgm("ST00.VGM");
+                dirty = 1;
+            }
         }
+    }
     }
 #endif
 

@@ -1,4 +1,10 @@
-# 던전 크롤러 에셋 출처
+# 던전 크롤러 크레딧
+
+## 개발
+
+- QuickBASIC (2026)
+
+# 에셋 출처
 
 ## 그래픽
 
@@ -28,4 +34,7 @@
 
 ## 음악
 
-- 기존 프로젝트 VGM 재활용: SRC/ST00.VGM ~ ST07.VGM (ASSETS/raw/audio_vgm/)
+### OPL2(AdLib) VGM 트랙 (ST00.VGM ~ ST07.VGM)
+- 작곡/제공: Ospaggi 님 (도스박물관)
+- 원본: ASSETS/raw/audio_vgm/
+- 사용 트랙: ST00(메뉴), ST01~ST03(지하 1~3층), ST06(지하 4층), ST07(엔딩)
