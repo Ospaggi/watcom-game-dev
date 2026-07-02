@@ -1,5 +1,6 @@
 #!/bin/bash
-# Engine asset pipeline. Generates game-ready files in SRC/.
+# Engine asset pipeline. Generates game-ready files in DIST/
+# (runtime-loaded assets) and SRC/PALETTE.H (compile-time header).
 # Base assets only: palette, font, one SFX, and the VGM music tracks.
 # (Game-specific sprite conversion is added back per-game.)
 
@@ -8,6 +9,8 @@ cd "$PROJECT_DIR"
 
 set -e
 
+mkdir -p DIST
+
 echo "Generating palette..."
 bun tools/mkpalette.ts
 
@@ -15,7 +18,7 @@ echo "Compiling fonts..."
 bun tools/mkfont.ts
 
 echo "Converting SFX..."
-bun tools/mksfx.ts "/Users/gcjjyy/Documents/게임개발/fx_sounds/ui-sound4.ogg" SRC/FIRE.SFX
+bun tools/mksfx.ts "/Users/gcjjyy/Documents/게임개발/fx_sounds/ui-sound4.ogg" DIST/FIRE.SFX
 
 echo "Building dungeon sprite sheets..."
 bun tools/mksheet.ts ASSETS/raw/dungeon/TILES.json ASSETS/raw/dungeon/TILES.PNG
@@ -24,20 +27,23 @@ bun tools/mksprite.ts --bin --grid 6x1  ASSETS/raw/dungeon/TILES.PNG TILES
 bun tools/mksprite.ts --bin --grid 10x1 ASSETS/raw/dungeon/MOBS.PNG  MOBS
 
 echo "Converting dungeon SFX..."
-bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/atk.wav   SRC/ATK.SFX
-bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/hit.wav   SRC/HIT.SFX
-bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/item.wav  SRC/ITEM.SFX
-bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/stair.wav SRC/STAIR.SFX
-bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/win.wav   SRC/WIN.SFX
-bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/lose.wav  SRC/LOSE.SFX
+bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/atk.wav   DIST/ATK.SFX
+bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/hit.wav   DIST/HIT.SFX
+bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/item.wav  DIST/ITEM.SFX
+bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/stair.wav DIST/STAIR.SFX
+bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/win.wav   DIST/WIN.SFX
+bun tools/mksfx.ts ASSETS/raw/dungeon/sfx/lose.wav  DIST/LOSE.SFX
 
 echo "Copying VGM..."
-cp "/Users/gcjjyy/lab/oscc/imsplay/public/18 Tyrian, The Level.vgm" SRC/TYRIAN.VGM
-cp ASSETS/raw/audio_vgm/ST00.vgm SRC/ST00.VGM
-cp ASSETS/raw/audio_vgm/ST01.vgm SRC/ST01.VGM
-cp ASSETS/raw/audio_vgm/ST02.vgm SRC/ST02.VGM
-cp ASSETS/raw/audio_vgm/ST03.vgm SRC/ST03.VGM
-cp ASSETS/raw/audio_vgm/ST06.vgm SRC/ST06.VGM
-cp ASSETS/raw/audio_vgm/ST07.vgm SRC/ST07.VGM
+cp "/Users/gcjjyy/lab/oscc/imsplay/public/18 Tyrian, The Level.vgm" DIST/TYRIAN.VGM
+cp ASSETS/raw/audio_vgm/ST00.vgm DIST/ST00.VGM
+cp ASSETS/raw/audio_vgm/ST01.vgm DIST/ST01.VGM
+cp ASSETS/raw/audio_vgm/ST02.vgm DIST/ST02.VGM
+cp ASSETS/raw/audio_vgm/ST03.vgm DIST/ST03.VGM
+cp ASSETS/raw/audio_vgm/ST06.vgm DIST/ST06.VGM
+cp ASSETS/raw/audio_vgm/ST07.vgm DIST/ST07.VGM
+
+echo "Copying credits..."
+cp ASSETS/raw/dungeon/CREDITS.md DIST/CREDITS.TXT
 
 echo "Done."

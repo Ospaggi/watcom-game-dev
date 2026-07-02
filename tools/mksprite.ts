@@ -488,13 +488,13 @@ if (values["flip-v"]) {
 
 const name = positionals[values.test ? 0 : 1].toUpperCase();
 
-/* DOS 8.3 filename guard: SRC/<NAME>.SPR -> NAME basename must be <= 8 chars,
+/* DOS 8.3 filename guard: DIST/<NAME>.SPR -> NAME basename must be <= 8 chars,
  * otherwise DOSBox can't surface the file to a Watcom-built EXE by that exact
  * name and spr_load will silently fail at runtime. */
 if (name.length > 8) {
   console.error(
     `error: NAME "${name}" exceeds DOS 8.3 basename limit (8 chars). ` +
-    `Output SRC/${name}.SPR cannot be loaded by Watcom-built game from DOS.`,
+    `Output DIST/${name}.SPR cannot be loaded by Watcom-built game from DOS.`,
   );
   process.exit(1);
 }
@@ -525,9 +525,9 @@ if (values.raw) {
   }
 
   if (values.bin) {
-    const outPath = `SRC/${name}.SPR`;
+    const outPath = `DIST/${name}.SPR`;
     writeSprBinary(outPath, frames, frameW, frameH);
-    writeRawCompanion(`SRC/${name}.RAW`, frames, frameW, frameH);
+    writeRawCompanion(`DIST/${name}.RAW`, frames, frameW, frameH);
     console.error(`/* ${outPath}: ${w}x${h} sheet, ${cols}x${rows} grid, ${frames.length} frames of ${frameW}x${frameH} */`);
   } else {
     console.log(formatGridHeader(name, frames, frameW, frameH));
@@ -536,9 +536,9 @@ if (values.raw) {
 } else if (values.bin) {
   // --bin mode without --grid: single compiled sprite to binary
   const code = compileSprite(w, h, pixels);
-  const outPath = `SRC/${name}.SPR`;
+  const outPath = `DIST/${name}.SPR`;
   writeSprBinary(outPath, [{ code }], w, h);
-  writeRawCompanion(`SRC/${name}.RAW`, [{ raw: pixels }], w, h);
+  writeRawCompanion(`DIST/${name}.RAW`, [{ raw: pixels }], w, h);
   const opaque = pixels.filter(p => p !== 0).length;
   console.error(`/* ${outPath}: ${w}x${h}, ${opaque} opaque px, ${code.length} bytes code */`);
 } else {

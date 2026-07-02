@@ -3,7 +3,7 @@
  * mkfont.ts - Compile bitmap fonts to x86 glyph code for DOS VGA
  *
  * Reads 8x16 English font (4096B) and 16x16 Korean 8x4x4-bul font (11520B),
- * scans SRC/*.CPP for used characters, compiles to FONT.BIN.
+ * scans SRC/*.CPP for used characters, compiles to DIST/FONT.BIN.
  *
  * Usage:
  *   bun tools/mkfont.ts [--eng <path>] [--han <path>]
@@ -347,7 +347,7 @@ for (const g of glyphs) {
   boff += g.code.length;
 }
 
-writeFileSync("SRC/FONT.BIN", bin);
+writeFileSync("DIST/FONT.BIN", bin);
 console.error(
-  `Compiled ${glyphs.length} glyphs from ${engPath} + ${hanPath} -> SRC/FONT.BIN (${bin.length} bytes)`,
+  `Compiled ${glyphs.length} glyphs from ${engPath} + ${hanPath} -> DIST/FONT.BIN (${bin.length} bytes)`,
 );

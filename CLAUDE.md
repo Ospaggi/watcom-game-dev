@@ -9,16 +9,16 @@ DOS real-mode game engine built with Watcom C/C++ 10.x, targeting VGA Mode 13h (
 ## Build & Run
 
 ```bash
-./convert.sh              # Asset pipeline only — regenerates game-ready files in SRC/ (called automatically by build.sh)
-./build.sh                # Runs convert.sh, launches DOSBox, compiles all SRC/*.CPP → SRC/GAME.EXE
-./run.sh                  # Runs SRC/GAME.EXE in DOSBox
-./run.sh OTHER.EXE        # Runs a different executable from SRC/
+./convert.sh              # Asset pipeline only — regenerates runtime assets in DIST/ (called automatically by build.sh)
+./build.sh                # Runs convert.sh, launches DOSBox, compiles all SRC/*.CPP → DIST/GAME.EXE
+./run.sh                  # Runs DIST/GAME.EXE in DOSBox
+./run.sh OTHER.EXE        # Runs a different executable from DIST/
 ./sfxtest.sh [scenario] [slot]  # Builds and runs SFXTEST.EXE — OPL2/Sound Blaster regression checks
 ```
 
 Build output goes to `BUILD.LOG` in the project root. The build script waits if another DOSBox instance is running. SFX test output is written to `SFXTEST.LOG` and `SFXTEST/SNDLOG.TXT`.
 
-Inside DOSBox, `BUILD.BAT` runs: `WCL386 *.CPP -fe=GAME.EXE` — all `.CPP` files in `SRC/` are compiled and linked in one step.
+Inside DOSBox, `BUILD.BAT` runs: `WCL386 *.CPP -fe=..\DIST\GAME.EXE` — all `.CPP` files in `SRC/` are compiled and linked in one step, then `DOS4GW.EXE` is copied next to the EXE. `DIST/` is the complete, distributable game folder (gitignored).
 
 Scripts assume macOS with DOSBox at `/Applications/dosbox.app/Contents/MacOS/DOSBox`.
 
@@ -48,7 +48,7 @@ Init order: `timer_init()` → `input_init()` → `snd_init()`. Shutdown is LIFO
 
 ### Project Layout
 
-Core source lives in `SRC/` (DOS 8.3 uppercase names). Generated runtime assets also land in `SRC/`: `.SPR`, `.IMG`, `.SFX`, `.VGM`, `PALETTE.H`. Host-side asset conversion tools are in `tools/` (Bun/TypeScript). Raw source assets are under `ASSETS/raw/` — do not edit originals directly. `SFXTEST/` contains the standalone sound test harness. `WATCOM/` is the bundled compiler/toolchain, and `docs/` contains design notes.
+Core source lives in `SRC/` (DOS 8.3 uppercase names). Generated runtime assets land in `DIST/` next to `GAME.EXE`: `.SPR`/`.RAW`, `.IMG`, `.SFX`, `.VGM`, `FONT.BIN` (the generated `PALETTE.H` compile-time header stays in `SRC/`). Host-side asset conversion tools are in `tools/` (Bun/TypeScript). Raw source assets are under `ASSETS/raw/` — do not edit originals directly. `SFXTEST/` contains the standalone sound test harness. `WATCOM/` is the bundled compiler/toolchain, and `docs/` contains design notes.
 
 ### Asset Pipeline (host-side, requires Bun)
 
@@ -66,7 +66,7 @@ Sprites are "compiled" — each frame is x86 machine code (MOV instructions targ
 
 ### File Naming Convention
 
-DOS 8.3 filenames. Source files are UPPERCASE. Sprite files use `SPR_xxxx.SPR` prefix. All generated files go into `SRC/`.
+DOS 8.3 filenames. Source files are UPPERCASE. Sprite files use `SPR_xxxx.SPR` prefix. All generated runtime files go into `DIST/`.
 
 ## Watcom C++ Constraints
 
