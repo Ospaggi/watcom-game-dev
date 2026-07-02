@@ -1,0 +1,32 @@
+[
+  {
+    "src": "ASSETS/raw/dungeon/Floor.png",
+    "cx": 1,
+    "cy": 10
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Wall.png",
+    "cx": 2,
+    "cy": 5
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Tile.png",
+    "cx": 3,
+    "cy": 1
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Potion.png",
+    "cx": 0,
+    "cy": 0
+  },
+  {
+    "src": "ASSETS/raw/dungeon/MedWep.png",
+    "cx": 0,
+    "cy": 0
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Money.png",
+    "cx": 0,
+    "cy": 0
+  }
+]

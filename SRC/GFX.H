@@ -17,6 +17,7 @@ void gfx_hline(int x1, int x2, int y, unsigned char color);
 void gfx_vline(int x, int y1, int y2, unsigned char color);
 void gfx_rect(int x, int y, int w, int h, unsigned char color);
 void gfx_fill_rect(int x, int y, int w, int h, unsigned char color);
+void gfx_dither_rect(int x, int y, int w, int h);
 
 void gfx_blit(const unsigned char *sprite, int x, int y, int w, int h);
 void gfx_blit_trans(const unsigned char *sprite, int x, int y,

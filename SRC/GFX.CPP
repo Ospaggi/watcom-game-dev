@@ -135,6 +135,25 @@ void gfx_fill_rect(int x, int y, int w, int h, unsigned char color) {
     }
 }
 
+/* Checkerboard dither: black out every other pixel (1010/0101 rows,
+   screen-coordinate parity) so the area underneath reads half-bright. */
+void gfx_dither_rect(int x, int y, int w, int h) {
+    int x2 = x + w - 1, y2 = y + h - 1;
+    unsigned char *p;
+    int row, col, ofs;
+    if (x  < 0)       x  = 0;
+    if (y  < 0)       y  = 0;
+    if (x2 >= GFX_W)  x2 = GFX_W - 1;
+    if (y2 >= GFX_H)  y2 = GFX_H - 1;
+    if (x > x2 || y > y2) return;
+    for (row = y; row <= y2; row++) {
+        ofs = ((x + row) & 1) ^ 1;    /* first pixel with odd x+y parity */
+        p = &_buf[row * GFX_W + x + ofs];
+        for (col = x + ofs; col <= x2; col += 2, p += 2)
+            *p = 0;
+    }
+}
+
 /* ---- sprites ---- */
 
 void gfx_blit(const unsigned char *sprite, int x, int y, int w, int h) {

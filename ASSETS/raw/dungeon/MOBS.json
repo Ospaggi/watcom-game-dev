@@ -1,0 +1,52 @@
+[
+  {
+    "src": "ASSETS/raw/dungeon/Rodent0.png",
+    "cx": 1,
+    "cy": 1
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Pest0.png",
+    "cx": 1,
+    "cy": 4
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Humanoid0.png",
+    "cx": 0,
+    "cy": 6
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Undead0.png",
+    "cx": 2,
+    "cy": 1
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Humanoid0.png",
+    "cx": 0,
+    "cy": 0
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Slime0.png",
+    "cx": 0,
+    "cy": 1
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Humanoid0.png",
+    "cx": 2,
+    "cy": 7
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Undead0.png",
+    "cx": 7,
+    "cy": 2
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Reptile0.png",
+    "cx": 0,
+    "cy": 3
+  },
+  {
+    "src": "ASSETS/raw/dungeon/Player0.png",
+    "cx": 4,
+    "cy": 0
+  }
+]

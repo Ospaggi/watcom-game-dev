@@ -3,7 +3,7 @@
 
 #define SND_OK       0
 #define SND_ERR     -1
-#define SND_MAX_SIZE 65536UL
+#define SND_MAX_SIZE 131072UL
 
 void snd_init(void);
 void snd_close(void);
