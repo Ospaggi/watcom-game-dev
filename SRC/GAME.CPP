@@ -71,10 +71,10 @@ static void new_floor(int f)
     dun_fov(pl.x, pl.y);
 
     switch (f) {
-    case 1: bgm("ST01.VGM"); break;
-    case 2: bgm("ST02.VGM"); break;
-    case 3: bgm("ST03.VGM"); break;
-    default: bgm("ST06.VGM"); break;
+    case 1: bgm("ST00.VGM"); break;
+    case 2: bgm("ST01.VGM"); break;
+    case 3: bgm("ST02.VGM"); break;
+    default: bgm("ST03.VGM"); break;
     }
     sprintf(buf, "지하 %d층에 내려왔다.", f);
     hud_msg(buf);
@@ -201,10 +201,10 @@ static const CreditLine credit_lines[] = {
     { "팔레트 DawnBringer",         7 },
     { "",                           0 },
     { "효과음",                     11 },
-    { "Juhani Junkala",             15 },
+    { "Ospaggi",                   15 },
     { "",                           0 },
     { "음악",                       11 },
-    { "Ospaggi (도스박물관)",       15 },
+    { "Ospaggi",                   15 },
     { "",                           0 },
     { "(C) 2026 QuickBASIC",        8 },
     { "",                           0 },
@@ -300,7 +300,7 @@ static int play_turn(int key)
             pl.gold += 5;
             if (m->kind == KIND_BOSS) {
                 sfx_play(SFX_S_WIN);
-                bgm("ST07.VGM");
+                bgm("ENDING.VGM");
                 game_state = ST_ENDING;
                 return 2;
             }
@@ -335,8 +335,8 @@ static int game_turn(int key)
         if (pl.hp < hp_before) sfx_play(SFX_S_HIT);
         if (pl.hp <= 0) {
             sfx_play(SFX_S_LOSE);
-            snd_stop();
             game_state = ST_DEAD;
+			bgm("GAMEOVER.VGM");
         }
     }
     dun_fov(pl.x, pl.y);
@@ -499,7 +499,7 @@ int main(void)
 #if AUTOCAP
     autocap_run();
 #else
-    bgm("ST00.VGM");
+    bgm("TITLE.VGM");
     input_flush();
 
     {
@@ -520,7 +520,7 @@ int main(void)
             if (dirty) { render_play(); dirty = 0; }
             if (key == KEY_ESC) {
                 game_state = ST_MENU;
-                bgm("ST00.VGM");
+                bgm("TITLE.VGM");
                 dirty = 1;
             } else if (key == KEY_F10) {
                 render_play();
@@ -536,7 +536,7 @@ int main(void)
                 credits_scroll = -1;
             } else if (key == KEY_ESC) {
                 game_state = ST_MENU;
-                bgm("ST00.VGM");
+                bgm("TITLE.VGM");
                 dirty = 1;
             }
         } else if (game_state == ST_CREDITS) {
@@ -547,14 +547,14 @@ int main(void)
             }
             if (key == KEY_ENTER || key == KEY_ESC) {
                 game_state = ST_MENU;
-                bgm("ST00.VGM");
+                bgm("TITLE.VGM");
                 dirty = 1;
             }
         } else {  /* ST_DEAD */
             if (dirty) { render_dead(); dirty = 0; }
             if (key == KEY_ENTER || key == KEY_ESC) {
                 game_state = ST_MENU;
-                bgm("ST00.VGM");
+                bgm("TITLE.VGM");
                 dirty = 1;
             }
         }
