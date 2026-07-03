@@ -3,6 +3,7 @@
 ## 개발
 
 - QuickBASIC (2026)
+- Ospaggi (2026)
 
 # 에셋 출처
 
@@ -19,22 +20,21 @@
 
 ## 효과음
 
-### The Essential Retro Video Game Sound Effects Collection (512 sounds)
-- 출처: https://opengameart.org/content/512-sound-effects-8-bit-style
-- 작가: Juhani Junkala (SubspaceAudio)
-- 라이선스: CC0 (퍼블릭 도메인)
+### PCM 효과음
+제공: Ospaggi
 - 사용 파일:
-  - atk.wav ← Weapons/Melee/sfx_wpn_sword2.wav (공격)
-  - hit.wav ← General Sounds/Simple Damage Sounds/sfx_damage_hit2.wav (피격)
-  - item.wav ← General Sounds/Positive Sounds/sfx_sounds_powerup1.wav (아이템)
-  - stair.wav ← Movement/Climbing Stairs/sfx_movement_stairs1a.wav (계단)
-  - win.wav ← General Sounds/Fanfares/sfx_sounds_fanfare1.wav (승리)
-  - lose.wav ← General Sounds/Negative Sounds/sfx_sounds_error1.wav (패배)
+  - atk.wav (공격)
+  - hit.wav (피격)
+  - item.wav (아이템)
+  - stair.wav (계단)
+  - win.wav (승리)
+  - lose.wav (패배)
+- 원본: ASSETS/raw/dungeon/sfx/
 - 변환: tools/mksfx.ts → SRC/*.SFX
 
 ## 음악
 
-### OPL2(AdLib) VGM 트랙 (ST00.VGM ~ ST07.VGM)
-- 작곡/제공: Ospaggi 님 (도스박물관)
+### OPL2(AdLib) VGM 트랙
+- 작곡/제공: Ospaggi
 - 원본: ASSETS/raw/audio_vgm/
-- 사용 트랙: ST00(메뉴), ST01~ST03(지하 1~3층), ST06(지하 4층), ST07(엔딩)
+- 사용 트랙: TITLE(메뉴), ST00-ST03(지하 1-4층), GAMEOVER(게임오버), ENDING(엔딩)
