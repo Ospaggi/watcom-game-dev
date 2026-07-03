@@ -193,7 +193,7 @@ static const CreditLine credit_lines[] = {
     { "던전 크롤러",                58 },
     { "",                           0 },
     { "개발",                       11 },
-    { "QuickBASIC",                 15 },
+    { "QuickBASIC, Ospaggi",        15 },
     { "",                           0 },
     { "그래픽",                     11 },
     { "DawnLike 타일셋",            15 },
