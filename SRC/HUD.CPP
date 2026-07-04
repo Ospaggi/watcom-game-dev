@@ -28,7 +28,7 @@ void hud_draw(int floor)
     gfx_fill_rect(240, 0, 80, 176, 2);
     gfx_vline(240, 0, 175, 8);
 
-    sprintf(buf, "지하 %d층", floor);
+    sprintf(buf, "B%d Floor", floor);
     font_puts(246, 6, buf, 15);
 
     sprintf(buf, "HP %d/%d", pl.hp > 0 ? pl.hp : 0, pl.maxhp);
@@ -37,16 +37,16 @@ void hud_draw(int floor)
     w = (pl.hp > 0) ? 69 * pl.hp / pl.maxhp : 0;
     if (w > 0) gfx_fill_rect(246, 51, w, 6, 24);
 
-    sprintf(buf, "공격 %d", pl.atk);
+    sprintf(buf, "ATK %d", pl.atk);
     font_puts(246, 66, buf, 15);
 
-    sprintf(buf, "물약 x%d", pl.potions);
+    sprintf(buf, "Potion x%d", pl.potions);
     font_puts(246, 92, buf, 11);
 
-    sprintf(buf, "금화 %d", pl.gold);
+    sprintf(buf, "Gold %d", pl.gold);
     font_puts(246, 118, buf, 58);
 
-    font_puts(246, 152, "P:물약", 8);
+    font_puts(246, 152, "P:Potion", 8);
 
     gfx_fill_rect(0, 176, 320, 24, 0);
     font_puts(4, 180, msgbuf, 14);

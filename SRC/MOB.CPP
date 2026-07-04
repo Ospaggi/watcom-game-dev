@@ -16,15 +16,15 @@ int nmobs = 0;
 Player pl;
 
 const MobDef mob_defs[9] = {
-    { "쥐",         4, 1, 0 },   /* 1층 */
-    { "거미",       3, 2, 1 },
-    { "고블린",     6, 2, 2 },   /* 2층 */
-    { "스켈레톤",   8, 3, 3 },
-    { "오크",      12, 4, 4 },   /* 3층 */
-    { "슬라임",    10, 3, 5 },
-    { "다크나이트", 16, 5, 6 },  /* 4층 */
-    { "마법사",    12, 5, 7 },
-    { "드래곤",    35, 5, 8 },   /* 보스 */
+    { "Rat",         4, 1, 0 },   /* 1층 */
+    { "Spider",       3, 2, 1 },
+    { "Goblin",     6, 2, 2 },   /* 2층 */
+    { "Skeleton",   8, 3, 3 },
+    { "Orc",      12, 4, 4 },   /* 3층 */
+    { "Slime",    10, 3, 5 },
+    { "Dark Knight", 16, 5, 6 },  /* 4층 */
+    { "Wizard",    12, 5, 7 },
+    { "Dragon",    35, 5, 8 },   /* 보스 */
 };
 
 void player_reset(void)
@@ -119,11 +119,11 @@ int player_attack(Mob *m)
     m->hp -= d;
     if (m->hp <= 0) {
         m->alive = 0;
-        sprintf(buf, "%s%s 물리쳤다!", nm, eul_reul(nm));
+        sprintf(buf, "You beat a %s!", nm);
         hud_msg(buf);
         return 1;
     }
-    sprintf(buf, "%s에게 %d 데미지!", mob_defs[m->kind].name, d);
+    sprintf(buf, "%d Damage to a %s!", mob_defs[m->kind].name, d);
     hud_msg(buf);
     return 0;
 }
@@ -134,7 +134,7 @@ static void mob_attack_player(Mob *m)
     int d = roll_dmg(m->atk);
 
     pl.hp -= d;
-    sprintf(buf, "%s의 공격! %d 데미지", mob_defs[m->kind].name, d);
+    sprintf(buf, "%s's attack! %d Damage", mob_defs[m->kind].name, d);
     hud_msg(buf);
 }
 

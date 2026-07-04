@@ -77,7 +77,7 @@ static void new_floor(int f)
     case 3: bgm("ST02.VGM"); break;
     default: bgm("ST03.VGM"); break;
     }
-    sprintf(buf, "지하 %d층에 내려왔다.", f);
+    sprintf(buf, "You came down to the B%d", f);
     hud_msg(buf);
     dirty = 1;
 }
@@ -146,11 +146,11 @@ static void render_menu(void)
     gfx_clear(0);
     spr_draw_clipped(&spr_mobs, 8, 120, 40);
     spr_draw_clipped(&spr_mobs, 9, 184, 40);
-    font_puts(112, 70, "던전 크롤러", 15);
-    font_puts(54, 100, "지하 4층의 드래곤을 잡아라", 7);
-    font_puts(60, 136, "방향키/WASD: 이동과 공격", 8);
-    font_puts(40, 152, "P: 물약 ESC: 종료 SPACE: 대기", 8);
-    font_puts(92, 180, "ENTER: 게임 시작", 14);
+    font_puts(98, 70, "Dungeon Crawler", 15);
+    font_puts(64, 100, "Beat Drangon at B4 Floor", 7);
+    font_puts(36, 136, "Arrow key/WASD: Move and Attack", 8);
+    font_puts(36, 152, "P: Potion ESC: Exit SPACE: Wait", 8);
+    font_puts(92, 180, "ENTER: Game Start", 14);
     gfx_vsync();
     gfx_flip();
 }
@@ -160,10 +160,10 @@ static void render_dead(void)
     char buf[48];
 
     gfx_clear(0);
-    font_puts(96, 60, "당신은 쓰러졌다...", 24);
-    sprintf(buf, "도달: 지하 %d층  금화: %d", floor_no, pl.gold);
+    font_puts(108, 60, "You lost...", 24);
+    sprintf(buf, "Total: B%d  Gold: %d", floor_no, pl.gold);
     font_puts(72, 100, buf, 7);
-    font_puts(96, 150, "ENTER: 메뉴로", 14);
+    font_puts(108, 150, "ENTER: Menu", 14);
     gfx_vsync();
     gfx_flip();
 }
@@ -174,11 +174,11 @@ static void render_ending(void)
 
     gfx_clear(0);
     spr_draw_clipped(&spr_mobs, 9, 152, 36);
-    font_puts(88, 64, "드래곤을 물리쳤다!", 58);
-    font_puts(64, 92, "던전에 평화가 찾아왔다.", 15);
-    sprintf(buf, "획득한 금화: %d닢", pl.gold);
+    font_puts(80, 64, "You beat The Dragon!!", 58);
+    font_puts(48, 92, "Peace has arrived at Dungeon.", 15);
+    sprintf(buf, "Total Gold: %d", pl.gold);
     font_puts(88, 124, buf, 58);
-    font_puts(96, 164, "ENTER: 크레딧", 14);
+    font_puts(96, 164, "ENTER: Credits", 14);
     gfx_vsync();
     gfx_flip();
 }
@@ -191,23 +191,23 @@ typedef struct {
 } CreditLine;
 
 static const CreditLine credit_lines[] = {
-    { "던전 크롤러",                58 },
+    { "Dungeon Crawler",                58 },
     { "",                           0 },
-    { "개발",                       11 },
+    { "Developers",                       11 },
     { "QuickBASIC, Ospaggi",        15 },
     { "",                           0 },
-    { "그래픽",                     11 },
-    { "DawnLike 타일셋",            15 },
+    { "Graphics",                     11 },
+    { "DawnLike Tileset",            15 },
     { "DragonDePlatino",            7 },
-    { "팔레트 DawnBringer",         7 },
+    { "palette DawnBringer",         7 },
     { "",                           0 },
-    { "효과음",                     11 },
+    { "Sound Effects",                     11 },
     { "Ospaggi",                   15 },
     { "",                           0 },
-    { "음악",                       11 },
+    { "Music",                       11 },
     { "Ospaggi",                   15 },
     { "",                           0 },
-    { "플레이해 주셔서 감사합니다!",   14 },
+    { "Thank you for playing!",   14 },
 };
 #define N_CREDITS ((int)(sizeof(credit_lines) / sizeof(credit_lines[0])))
 #define CREDIT_LINE_H   24
@@ -249,15 +249,15 @@ static void pickup(void)
         switch (it->kind) {
         case IT_POTION:
             pl.potions++;
-            hud_msg("물약을 주웠다.");
+            hud_msg("You picked up the potion.");
             break;
         case IT_SWORD:
             pl.atk += 2;
-            hud_msg("검이 날카로워졌다! 공격 +2");
+            hud_msg("The sword is sharpened! Attack +2");
             break;
         default:
             pl.gold += 20;
-            hud_msg("금화 20닢을 주웠다!");
+            hud_msg("You picked up 20 golds.");
             break;
         }
     }
@@ -275,7 +275,7 @@ static int play_turn(int key)
     case KEY_RIGHT: case KEY_D: dx = 1;  break;
 	
 	case KEY_SPACE:
-        hud_msg("제자리에서 대기했다.");
+        hud_msg("You waited in place.");
         return 1;
 	
     case KEY_P:
@@ -283,11 +283,11 @@ static int play_turn(int key)
             pl.potions--;
             pl.hp += 10;
             if (pl.hp > pl.maxhp) pl.hp = pl.maxhp;
-            hud_msg("물약을 마셨다. HP +10");
+            hud_msg("You drank the potion. HP +10");
             sfx_play(SFX_S_ITEM);
             return 1;
         }
-        hud_msg(pl.potions > 0 ? "체력이 가득 찼다." : "물약이 없다!");
+        hud_msg(pl.potions > 0 ? "Full Health." : "No potion!");
         dirty = 1;
         return 0;
     default:
