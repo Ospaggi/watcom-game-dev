@@ -27,6 +27,7 @@
 #include "HUD.H"
 
 #define KEY_P 0x19
+#define KEY_SPACE 0x39
 #define KEY_F10 0x44
 
 /* sfx slots */
@@ -146,9 +147,9 @@ static void render_menu(void)
     spr_draw_clipped(&spr_mobs, 8, 120, 40);
     spr_draw_clipped(&spr_mobs, 9, 184, 40);
     font_puts(112, 70, "던전 크롤러", 15);
-    font_puts(64, 100, "지하 4층의 드래곤을 잡아라", 7);
+    font_puts(54, 100, "지하 4층의 드래곤을 잡아라", 7);
     font_puts(60, 136, "방향키/WASD: 이동과 공격", 8);
-    font_puts(60, 152, "P: 물약    ESC: 종료", 8);
+    font_puts(40, 152, "P: 물약 ESC: 종료 SPACE: 대기", 8);
     font_puts(92, 180, "ENTER: 게임 시작", 14);
     gfx_vsync();
     gfx_flip();
@@ -160,7 +161,7 @@ static void render_dead(void)
 
     gfx_clear(0);
     font_puts(96, 60, "당신은 쓰러졌다...", 24);
-    sprintf(buf, "도달: 지하 %d층    금화 %d", floor_no, pl.gold);
+    sprintf(buf, "도달: 지하 %d층  금화: %d", floor_no, pl.gold);
     font_puts(72, 100, buf, 7);
     font_puts(96, 150, "ENTER: 메뉴로", 14);
     gfx_vsync();
@@ -206,9 +207,7 @@ static const CreditLine credit_lines[] = {
     { "음악",                       11 },
     { "Ospaggi",                   15 },
     { "",                           0 },
-    { "(C) 2026 QuickBASIC",        8 },
-    { "",                           0 },
-    { "플레이해 주셔서 감사합니다!", 14 },
+    { "플레이해 주셔서 감사합니다!",   14 },
 };
 #define N_CREDITS ((int)(sizeof(credit_lines) / sizeof(credit_lines[0])))
 #define CREDIT_LINE_H   24
@@ -274,6 +273,11 @@ static int play_turn(int key)
     case KEY_DOWN:  case KEY_S: dy = 1;  break;
     case KEY_LEFT:  case KEY_A: dx = -1; break;
     case KEY_RIGHT: case KEY_D: dx = 1;  break;
+	
+	case KEY_SPACE:
+        hud_msg("제자리에서 대기했다.");
+        return 1;
+	
     case KEY_P:
         if (pl.potions > 0 && pl.hp < pl.maxhp) {
             pl.potions--;
