@@ -174,7 +174,7 @@ static void render_ending(void)
 
     gfx_clear(0);
     spr_draw_clipped(&spr_mobs, 9, 152, 36);
-    font_puts(80, 64, "You beat The Dragon!!", 58);
+    font_puts(80, 64, "You beat the Dragon!!", 58);
     font_puts(48, 92, "Peace has arrived at Dungeon.", 15);
     sprintf(buf, "Total Gold: %d", pl.gold);
     font_puts(88, 124, buf, 58);
