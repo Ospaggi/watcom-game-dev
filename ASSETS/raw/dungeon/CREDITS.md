@@ -21,7 +21,7 @@
 ## 효과음
 
 ### PCM 효과음
-제공: Ospaggi
+제작/제공: Ospaggi
 - 사용 파일:
   - atk.wav (공격)
   - hit.wav (피격)
