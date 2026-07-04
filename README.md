@@ -20,7 +20,6 @@ VGA Mode 13h (320x200, 256색) 타겟.
 
 - [DOSBox](https://www.dosbox.com/) (0.74 이상)
 - [Bun](https://bun.sh/) — 에셋 파이프라인용
-- macOS — 빌드 스크립트가 `/Applications/dosbox.app` 경로를 사용합니다
 
 ## 빌드 & 실행
 
