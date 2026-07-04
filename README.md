@@ -1,6 +1,8 @@
 # watcom-game-dev
 
-Watcom C/C++ 10.6으로 만드는 DOS 실모드 게임 엔진. VGA Mode 13h (320x200, 256색) 타겟. macOS에서 개발하고 DOSBox 안에서 컴파일합니다.
+Watcom C/C++ 10.6 이상(오픈 왓콤 포함)으로 만드는 DOS 실모드 게임 엔진.
+VGA Mode 13h (320x200, 256색) 타겟.
+다른 운영체제에서 개발하고 DOSBox 안에서 컴파일합니다.
 
 ## 엔진 모듈
 
